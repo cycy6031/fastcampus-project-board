@@ -1,10 +1,10 @@
-package com.example.project_board;
+package com.fastcampus.projectBoard;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ProjectBoardApplicationTests {
+class FastCampusProjectBoardApplicationTests {
 
 	@Test
 	void contextLoads() {
