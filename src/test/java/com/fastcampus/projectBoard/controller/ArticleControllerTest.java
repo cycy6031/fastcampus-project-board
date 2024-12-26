@@ -38,7 +38,6 @@ class ArticleControllerTest {
             .andExpect(model().attributeExists("articles"));
     }
 
-    @Disabled("진행 중")
     @DisplayName("[view][GET] 게시글 상세 페이지 - 정상 호출")
     @Test
     public void givenNoting_whenRequestingArticlesView_thenReturnsArticleView() throws Exception{
