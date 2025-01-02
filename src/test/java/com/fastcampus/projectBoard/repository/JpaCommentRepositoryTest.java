@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.*;
 
 import com.fastcampus.projectBoard.config.JpaConfig;
 import com.fastcampus.projectBoard.domain.Article;
+import com.fastcampus.projectBoard.domain.UserAccount;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,12 +19,15 @@ class JpaCommentRepositoryTest {
 
     private final ArticleRepository articleRepository;
     private final ArticleCommentRepository articleCommentRepository;
+    private final UserAccountRepository userAccountRepository;
 
     public JpaCommentRepositoryTest(
         @Autowired ArticleRepository articleRepository,
-        @Autowired ArticleCommentRepository articleCommentRepository) {
+        @Autowired ArticleCommentRepository articleCommentRepository,
+        @Autowired UserAccountRepository userAccountRepository) {
         this.articleRepository = articleRepository;
         this.articleCommentRepository = articleCommentRepository;
+        this.userAccountRepository = userAccountRepository;
     }
 
     @DisplayName("select 테스트")
@@ -43,9 +47,11 @@ class JpaCommentRepositoryTest {
     void givenTestData_whenInserting_thenWorksFine(){
         // Given
         long previousCount = articleRepository.count();
+        UserAccount userAccount = userAccountRepository.save(UserAccount.of("6031", "pw", null, null, null));
+        Article article = Article.of(userAccount, "new article", "new content", "new hashcode");
 
         // When
-        Article savedArticle = articleRepository.save(Article.of("new article", "new content", "new hashcode"));
+        articleRepository.save(article);
 
         // Then
         assertThat(articleRepository.count()).isEqualTo(previousCount + 1);
