@@ -34,7 +34,7 @@ public class ArticleComment extends AuditingField{
 
     protected ArticleComment() {}
 
-    private ArticleComment(UserAccount userAccount, Article article, String content) {
+    private ArticleComment(UserAccount userAccount, Article article,String content) {
         this.userAccount = userAccount;
         this.article = article;
         this.content = content;
