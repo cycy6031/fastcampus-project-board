@@ -5,6 +5,7 @@ import com.fastcampus.projectBoard.domain.QArticle;
 import com.fastcampus.projectBoard.domain.QArticleComment;
 import com.querydsl.core.types.dsl.DateTimeExpression;
 import com.querydsl.core.types.dsl.StringExpression;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
@@ -26,4 +27,6 @@ public interface ArticleCommentRepository
         bindings.bind(root.createdBy).first(StringExpression::containsIgnoreCase);
 
     }
+
+    List<ArticleComment> findByArticle_id(Long articleId);
 }
