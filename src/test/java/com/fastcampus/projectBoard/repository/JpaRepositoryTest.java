@@ -15,13 +15,13 @@ import org.springframework.context.annotation.Import;
 @DisplayName("JPA 연결 테스트")
 @Import(JpaConfig.class)
 @DataJpaTest
-class JpaCommentRepositoryTest {
+class JpaRepositoryTest {
 
     private final ArticleRepository articleRepository;
     private final ArticleCommentRepository articleCommentRepository;
     private final UserAccountRepository userAccountRepository;
 
-    public JpaCommentRepositoryTest(
+    public JpaRepositoryTest(
         @Autowired ArticleRepository articleRepository,
         @Autowired ArticleCommentRepository articleCommentRepository,
         @Autowired UserAccountRepository userAccountRepository) {
@@ -47,7 +47,7 @@ class JpaCommentRepositoryTest {
     void givenTestData_whenInserting_thenWorksFine(){
         // Given
         long previousCount = articleRepository.count();
-        UserAccount userAccount = userAccountRepository.save(UserAccount.of("6031", "pw", null, null, null));
+        UserAccount userAccount = userAccountRepository.save(UserAccount.of("6031_", "pw", null, null, null));
         Article article = Article.of(userAccount, "new article", "new content", "new hashcode");
 
         // When
