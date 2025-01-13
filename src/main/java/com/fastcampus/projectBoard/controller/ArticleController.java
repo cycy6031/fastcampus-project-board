@@ -1,10 +1,6 @@
 package com.fastcampus.projectBoard.controller;
 
-import com.fastcampus.projectBoard.domain.Article;
-import com.fastcampus.projectBoard.domain.type.SearchType;
-import com.fastcampus.projectBoard.dto.ArticleWithCommentsDto;
-import com.fastcampus.projectBoard.repository.ArticleRepository;
-import com.fastcampus.projectBoard.response.ArticleCommentResponse;
+import com.fastcampus.projectBoard.domain.constant.SearchType;
 import com.fastcampus.projectBoard.response.ArticleResponse;
 import com.fastcampus.projectBoard.response.ArticleWithCommentResponse;
 import com.fastcampus.projectBoard.service.ArticleService;

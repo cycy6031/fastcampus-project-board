@@ -1,6 +1,5 @@
 package com.fastcampus.projectBoard.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.eq;
@@ -13,11 +12,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import com.fastcampus.projectBoard.config.SecurityConfig;
-import com.fastcampus.projectBoard.domain.type.SearchType;
+import com.fastcampus.projectBoard.domain.constant.FormStatus;
+import com.fastcampus.projectBoard.domain.constant.SearchType;
 import com.fastcampus.projectBoard.dto.ArticleWithCommentsDto;
 import com.fastcampus.projectBoard.dto.UserAccountDto;
 import com.fastcampus.projectBoard.service.ArticleService;
 import com.fastcampus.projectBoard.service.PaginationService;
+import com.fastcampus.projectBoard.util.FormDataEncoder;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
@@ -36,17 +37,22 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 @DisplayName("View 컨트롤러 - 게시글")
-@Import(SecurityConfig.class)
+@Import({SecurityConfig.class, FormDataEncoder.class})
 @WebMvcTest(ArticleController.class)
 class ArticleControllerTest {
 
     private final MockMvc mvc;
+    private final FormDataEncoder formDataEncoder;
 
     @MockitoBean private ArticleService articleService;
     @MockitoBean private PaginationService paginationService;
 
-    public ArticleControllerTest(@Autowired MockMvc mvc) {
+    public ArticleControllerTest(
+        @Autowired MockMvc mvc,
+        @Autowired FormDataEncoder FormDataEncoder
+    ) {
         this.mvc = mvc;
+        this.formDataEncoder = FormDataEncoder;
     }
 
     @DisplayName("[view][GET] 게시글 리스트 (게시판) 페이지 - 정상 호출")
@@ -126,9 +132,8 @@ class ArticleControllerTest {
         // Given
         Long articleId = 1L;
         long totalCount = 1L;
-        given(articleService.getArticle(articleId)).willReturn(createArticleWithCommentsDto());
+        given(articleService.getArticleWithComments(articleId)).willReturn(createArticleWithCommentsDto());
         given(articleService.getArticleCount()).willReturn(totalCount);
-        System.out.println(totalCount);
 
         // When & Then
         mvc.perform(get("/articles/" + articleId))
@@ -138,7 +143,7 @@ class ArticleControllerTest {
             .andExpect(model().attributeExists("article"))
             .andExpect(model().attributeExists("articleComments"))
             .andExpect(model().attribute("totalCount", totalCount));
-        then(articleService).should().getArticle(articleId);
+        then(articleService).should().getArticleWithComments(articleId);
         then(articleService).should().getArticleCount();
     }
 
@@ -201,6 +206,19 @@ class ArticleControllerTest {
         then(articleService).should().searchArticlesViaHashtag(eq(hashtag), any(Pageable.class));
         then(articleService).should().getHashtags();
         then(paginationService).should().getPaginationBarNumbers(anyInt(), anyInt());
+    }
+
+    @DisplayName("[view][GET] 새 게시글 작성 페이지")
+    @Test
+    void givenNothing_whenRequesting_thenReturnsNewArticlePage() throws Exception{
+        // Given
+
+        // When & Then
+        mvc.perform(get("/articles/form"))
+            .andExpect(status().isOk())
+            .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
+            .andExpect(view().name("articles/form"))
+            .andExpect(model().attribute("formStatus", FormStatus.CREATE));
     }
 
 

@@ -1,14 +1,13 @@
 package com.fastcampus.projectBoard.service;
 
 import com.fastcampus.projectBoard.domain.Article;
-import com.fastcampus.projectBoard.domain.type.SearchType;
+import com.fastcampus.projectBoard.domain.constant.SearchType;
 import com.fastcampus.projectBoard.dto.ArticleDto;
 import com.fastcampus.projectBoard.dto.ArticleWithCommentsDto;
 import com.fastcampus.projectBoard.repository.ArticleRepository;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
