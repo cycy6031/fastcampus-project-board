@@ -48,7 +48,7 @@ public class ArticleController {
 
     @GetMapping("/{articleId}")
     public String article(@PathVariable Long articleId, ModelMap map) {
-        ArticleWithCommentResponse article = ArticleWithCommentResponse.from(articleService.getArticleWithComment(articleId));
+        ArticleWithCommentResponse article = ArticleWithCommentResponse.from(articleService.getArticleWithComments(articleId));
 
         map.addAttribute("article", article);
         map.addAttribute("articleComments", article.articleCommentResponses());
@@ -104,6 +104,8 @@ public class ArticleController {
         articleService.updateArticle(articleId, articleRequest.toDto(UserAccountDto.of(
             "uno", "asdf1234", "uno@mail.com", "Uno", "I am Uno.", null, null, null, null
         )));
+
+        return "redirect:/articles/" + articleId;
     }
 
     @PostMapping("/{articleId}/delete")
