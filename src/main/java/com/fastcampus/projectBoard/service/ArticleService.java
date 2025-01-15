@@ -1,14 +1,15 @@
 package com.fastcampus.projectBoard.service;
 
 import com.fastcampus.projectBoard.domain.Article;
-import com.fastcampus.projectBoard.domain.type.SearchType;
+import com.fastcampus.projectBoard.domain.UserAccount;
+import com.fastcampus.projectBoard.domain.constant.SearchType;
 import com.fastcampus.projectBoard.dto.ArticleDto;
 import com.fastcampus.projectBoard.dto.ArticleWithCommentsDto;
 import com.fastcampus.projectBoard.repository.ArticleRepository;
+import com.fastcampus.projectBoard.repository.UserAccountRepository;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ArticleService {
 
     private final ArticleRepository articleRepository;
+    private final UserAccountRepository userAccountRepository;
 
     @Transactional(readOnly = true)
     public Page<ArticleDto> searchArticles(SearchType searchType, String searchKeyword, Pageable pageable) {
@@ -44,13 +46,14 @@ public class ArticleService {
     }
 
     public void saveArticle(ArticleDto dto) {
-        articleRepository.save(dto.toEntity());
+        UserAccount userAccount = userAccountRepository.getReferenceById(dto.userAccountDto().userId());
+        articleRepository.save(dto.toEntity(userAccount));
     }
 
     //트렌젝션널을 쓰고잇어서 객체의 데이터가 변한 상태에서 메소드가 끝나면 update가 자동적으로 됨
-    public void updateArticle(ArticleDto dto) {
+    public void updateArticle(Long articleId, ArticleDto dto) {
         try {
-            Article article = articleRepository.getReferenceById(dto.id());
+            Article article = articleRepository.getReferenceById(articleId);
             if (dto.title() != null) {
                 article.setTitle(dto.title());
             }
@@ -67,8 +70,15 @@ public class ArticleService {
         articleRepository.deleteById(articleId);
     }
 
-    public ArticleWithCommentsDto getArticle(Long articleId) {
+    public ArticleWithCommentsDto getArticleWithComments(Long articleId) {
         return articleRepository.findById(articleId).map(ArticleWithCommentsDto::from).orElseThrow(() -> new EntityNotFoundException("게시글이 없습니다. - articleId : " + articleId));
+    }
+
+    @Transactional(readOnly = true)
+    public ArticleDto getArticle(Long articleId){
+        return articleRepository.findById(articleId)
+            .map(ArticleDto::from)
+            .orElseThrow(() -> new EntityNotFoundException("게시글이 없습니다. - articleId : " + articleId));
     }
 
     public long getArticleCount() {
@@ -86,4 +96,5 @@ public class ArticleService {
     public List<String> getHashtags() {
         return articleRepository.findAllDistinctHashtags();
     }
+
 }
