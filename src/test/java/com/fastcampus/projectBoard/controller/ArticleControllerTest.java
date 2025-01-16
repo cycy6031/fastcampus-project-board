@@ -33,6 +33,7 @@ import java.util.Set;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,8 +58,7 @@ class ArticleControllerTest {
 
     @MockitoBean private ArticleService articleService;
     @MockitoBean private PaginationService paginationService;
-    @Autowired
-    private ArticleRepository articleRepository;
+    @Mock private ArticleRepository articleRepository;
 
     public ArticleControllerTest(
         @Autowired MockMvc mvc,
@@ -263,7 +263,7 @@ class ArticleControllerTest {
         given(articleService.getArticle(articleId)).willReturn(dto);
 
         // When & Then
-        mvc.perform(get("articles/" + articleId + "/form"))
+        mvc.perform(get("/articles/" + articleId + "/form"))
             .andExpect(status().isOk())
             .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
             .andExpect(view().name("articles/form"))

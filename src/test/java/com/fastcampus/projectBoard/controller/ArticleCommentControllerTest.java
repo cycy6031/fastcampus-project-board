@@ -19,7 +19,7 @@ class ArticleCommentControllerTest {
     private final MockMvc mvc;
 
     @MockitoBean private ArticleCommentService articleCommentService;
-    @MockitoBean private
+    //@MockitoBean private
 
     public ArticleCommentControllerTest(@Autowired MockMvc mvc) {
         this.mvc = mvc;

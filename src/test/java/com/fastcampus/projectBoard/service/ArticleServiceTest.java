@@ -12,6 +12,7 @@ import com.fastcampus.projectBoard.domain.constant.SearchType;
 import com.fastcampus.projectBoard.dto.ArticleDto;
 import com.fastcampus.projectBoard.dto.ArticleWithCommentsDto;
 import com.fastcampus.projectBoard.dto.UserAccountDto;
+import com.fastcampus.projectBoard.repository.ArticleCommentRepository;
 import com.fastcampus.projectBoard.repository.ArticleRepository;
 import com.fastcampus.projectBoard.repository.UserAccountRepository;
 import jakarta.persistence.EntityNotFoundException;
