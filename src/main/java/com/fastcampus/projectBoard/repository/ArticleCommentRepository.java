@@ -29,4 +29,6 @@ public interface ArticleCommentRepository
     }
 
     List<ArticleComment> findByArticle_id(Long articleId);
+
+    void deleteByIdAndUserAccount_UserId(Long articleCommentId, String userId);
 }

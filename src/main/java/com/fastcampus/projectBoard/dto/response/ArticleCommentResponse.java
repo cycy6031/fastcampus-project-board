@@ -1,6 +1,5 @@
-package com.fastcampus.projectBoard.response;
+package com.fastcampus.projectBoard.dto.response;
 
-import com.fastcampus.projectBoard.domain.ArticleComment;
 import com.fastcampus.projectBoard.dto.ArticleCommentDto;
 import java.time.LocalDateTime;
 

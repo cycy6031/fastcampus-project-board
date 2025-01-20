@@ -1,4 +1,4 @@
-package com.fastcampus.projectBoard.request;
+package com.fastcampus.projectBoard.dto.request;
 
 import com.fastcampus.projectBoard.dto.ArticleCommentDto;
 import com.fastcampus.projectBoard.dto.UserAccountDto;

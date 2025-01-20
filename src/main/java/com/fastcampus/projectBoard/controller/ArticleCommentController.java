@@ -1,7 +1,7 @@
 package com.fastcampus.projectBoard.controller;
 
 import com.fastcampus.projectBoard.dto.UserAccountDto;
-import com.fastcampus.projectBoard.request.ArticleCommentRequest;
+import com.fastcampus.projectBoard.dto.request.ArticleCommentRequest;
 import com.fastcampus.projectBoard.service.ArticleCommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
