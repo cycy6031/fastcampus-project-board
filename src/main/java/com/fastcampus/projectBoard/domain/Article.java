@@ -8,6 +8,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderBy;
@@ -39,7 +41,14 @@ public class Article extends AuditingField {
     @Setter @Column(nullable = false, length = 500) private String title; //제목
     @Setter @Column(nullable = false, length = 10000) private String content; //본문
 
-    @Setter private String hashtag; //해시태그
+    @ToString.Exclude
+    @JoinTable(
+        name = "article_hashtag",
+        joinColumns = @JoinColumn(name = "articleId"),
+        inverseJoinColumns = @JoinColumn(name = "hashtagId")
+    )
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Set<Hashtag> hashtags = new LinkedHashSet<>();
 
     @OrderBy("createdAt desc")
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
@@ -48,15 +57,14 @@ public class Article extends AuditingField {
 
     protected Article() {}
 
-    private Article(UserAccount userAccount, String title, String content, String hashtag) {
+    private Article(UserAccount userAccount, String title, String content) {
         this.userAccount = userAccount;
         this.title = title;
         this.content = content;
-        this.hashtag = hashtag;
     }
 
-    public static Article of(UserAccount userAccount, String title, String content, String hashtag) {
-        return new Article(userAccount, title, content, hashtag);
+    public static Article of(UserAccount userAccount, String title, String content) {
+        return new Article(userAccount, title, content);
     }
 
     @Override
