@@ -63,12 +63,12 @@ public class Article extends AuditingField {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Article article)) return false;
-        return id != null && id.equals(article.id);
+        return this.getId() != null && this.getId().equals(article.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return Objects.hashCode(this.getId());
     }
 }
 
