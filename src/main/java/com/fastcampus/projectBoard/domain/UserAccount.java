@@ -15,7 +15,6 @@ import lombok.ToString;
 @Getter
 @ToString
 @Table(indexes = {
-    @Index(columnList = "userId", unique = true),
     @Index(columnList = "email", unique = true),
     @Index(columnList = "createdAt"),
     @Index(columnList = "createdBy")
@@ -32,7 +31,8 @@ public class UserAccount extends AuditingField {
     @Setter @Column(length = 100) private String nickname;
     @Setter private String memo;
 
-    public UserAccount() {}
+
+    protected UserAccount() {}
 
     private UserAccount(String userId, String userPassword, String email, String nickname, String memo) {
         this.userId = userId;
@@ -49,12 +49,13 @@ public class UserAccount extends AuditingField {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof UserAccount userAccount)) return false;
-        return this.getUserId() != null && this.getUserId().equals(userAccount.getUserId());
+        if (!(o instanceof UserAccount that)) return false;
+        return this.getUserId() != null && this.getUserId().equals(that.getUserId());
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(this.getUserId());
     }
+
 }

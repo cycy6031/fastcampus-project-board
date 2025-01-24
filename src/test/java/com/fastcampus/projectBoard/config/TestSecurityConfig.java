@@ -15,11 +15,11 @@ public class TestSecurityConfig {
     @MockitoBean private UserAccountRepository userAccountRepository;
 
     @BeforeTestMethod
-    public void securitySetup(){
+    public void securitySetUp() {
         given(userAccountRepository.findById(anyString())).willReturn(Optional.of(UserAccount.of(
-            "userTest",
+            "unoTest",
             "pw",
-            "6031@email.com",
+            "uno-test@email.com",
             "uno-test",
             "test memo"
         )));
