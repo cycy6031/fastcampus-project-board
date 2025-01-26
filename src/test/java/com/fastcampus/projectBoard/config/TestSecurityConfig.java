@@ -12,7 +12,9 @@ import org.springframework.test.context.event.annotation.BeforeTestMethod;
 
 @Import(SecurityConfig.class)
 public class TestSecurityConfig {
-    @MockitoBean private UserAccountRepository userAccountRepository;
+
+    @MockitoBean
+    private UserAccountRepository userAccountRepository;
 
     @BeforeTestMethod
     public void securitySetUp() {
@@ -24,4 +26,5 @@ public class TestSecurityConfig {
             "test memo"
         )));
     }
+
 }
