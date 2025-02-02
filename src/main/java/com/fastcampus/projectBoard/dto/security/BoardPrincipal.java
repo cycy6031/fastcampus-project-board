@@ -3,12 +3,14 @@ package com.fastcampus.projectBoard.dto.security;
 import com.fastcampus.projectBoard.dto.UserAccountDto;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 public record BoardPrincipal (
     String username,
@@ -16,10 +18,15 @@ public record BoardPrincipal (
     Collection<? extends GrantedAuthority> authorities,
     String email,
     String nickname,
-    String memo
-) implements UserDetails {
+    String memo,
+    Map<String, Object> oAuth2Attribute
+) implements UserDetails, OAuth2User {
 
     public static BoardPrincipal of(String username, String password, String email, String nickname, String memo) {
+        return of(username, password, email, nickname, memo, Map.of());
+    }
+
+    public static BoardPrincipal of(String username, String password, String email, String nickname, String memo, Map<String, Object> oAuth2Attribute) {
         Set<RoleType> roleTypes = Set.of(RoleType.User);
 
         return new BoardPrincipal(
@@ -31,7 +38,8 @@ public record BoardPrincipal (
                 .collect(Collectors.toUnmodifiableSet()),
             email,
             nickname,
-            memo
+            memo,
+            oAuth2Attribute
         );
     }
 
@@ -88,6 +96,17 @@ public record BoardPrincipal (
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+
+    @Override
+    public Map<String, Object> getAttributes(){
+        return oAuth2Attribute;
+    }
+
+    @Override
+    public String getName(){
+        return username;
     }
 
     private enum RoleType {
