@@ -12,8 +12,8 @@ public interface ArticleCommentProjection {
     UserAccount getUserAccount();
     Long getParentCommentId();
     String getContent();
-    LocalDateTime getCreateAt();
-    String getCreateBy();
+    LocalDateTime getCreatedAt();
+    String getCreatedBy();
     LocalDateTime getModifiedAt();
     String getModifiedBy();
 }

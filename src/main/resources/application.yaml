@@ -9,9 +9,9 @@ logging:
 
 spring:
   datasource:
-    url: ${LOCAL_DB_URL} #jdbc:postgresql://localhost:5432/board
-    username: ${LOCAL_DB_USERNAME} #uno
-    password: ${LOCAL_DB_PASSWORD} #thisisTESTpw!#%&
+    url: jdbc:mysql://localhost:3306/admin
+    username: bomi #root #uno
+    password: 1234 #1234 #thisisTestpw!#%&
   jpa:
     open-in-view: false
     defer-datasource-initialization: true
@@ -30,8 +30,8 @@ spring:
       client:
         registration:
           kakao:
-            client-id: ${KAKAO_OAUTH_CLIENT_ID}
-            client-secret: ${KAKAO_OAUTH_CLIENT_SECRET}
+            client-id: ae2016a457af4af4a8451bb7d2f8d32b97f # ${KAKAO_OAUTH_CLIENT_ID}
+            client-secret: hcOIQbtkwomI8BdsxSjgUUPBQgqOGhfO # ${KAKAO_OAUTH_CLIENT_SECRET}
             authorization-grant-type: authorization_code
             redirect-uri: "{baseUrl}/login/oauth2/code/kakao"
             client-authentication-method: POST

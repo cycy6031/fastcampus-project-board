@@ -11,8 +11,8 @@ public interface ArticleProjection {
     UserAccount getUserAccount();
     String getTitle();
     String getContent();
-    LocalDateTime getCreateAt();
-    String getCreateBy();
+    LocalDateTime getCreatedAt();
+    String getCreatedBy();
     LocalDateTime getModifiedAt();
     String getModifiedBy();
 }

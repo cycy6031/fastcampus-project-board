@@ -10,8 +10,8 @@ public interface UserAccountProjection {
     String getEmail();
     String getNickname();
     String getMemo();
-    LocalDateTime getCreateAt();
-    String getCreateBy();
+    LocalDateTime getCreatedAt();
+    String getCreatedBy();
     LocalDateTime getModifiedAt();
     String getModifiedBy();
 }
